@@ -14,18 +14,21 @@ def make_level_library_from_json(json_data):
         level.num_chips = level_json["num_chips"]
         level.upper_layer = level_json["upper_layer"]
         level.lower_layer = level_json["lower_layer"]
-        level.optional_fields = level_json["optional_fields"]
         # Loop through optional fields
         for field_json in level_json["optional_fields"]:
-            if field_json is level_json["optional_fields"]["title"]:
-                level.optional_fields = cc_data.CCMapTitleField()
-                level.add_field(field_json)
-            if field_json is level_json["optional_fields"]["hint"]:
-                level.optional_fields = cc_data.CCMapHintField()
-                level.add_field(field_json)
-            if field_json is level_json["optional_fields"]["password"]:
-                level.optional_fields = cc_data.CCEncodedPasswordField()
-                level.add_field(field_json)
+            if field_json["type"] == "title":
+                new_field = cc_data.CCMapTitleField(field_json["title_txt"])
+            if field_json["type"] == "hint":
+                new_field = cc_data.CCMapHintField(field_json["hint_txt"])
+            if field_json["type"] == "password":
+                new_field = cc_data.CCEncodedPasswordField(field_json["password_txt"])
+            if field_json["type"] == "monster":
+                location = []
+                for c in field_json["monsters"]:
+                    new_location = cc_data.CCCoordinate(c[0], c[1])
+                    location.append(new_location)
+                new_field = cc_data.CCMonsterMovementField(location)
+            level.add_field(new_field)
         level_library.add_level(level)
     return level_library
 
@@ -34,8 +37,9 @@ def make_level_library_from_json(json_data):
 #Convert JSON data to cc_data
 #Save converted data to DAT file
 
-with open("data/cc_data.json", "r") as reader:
+input_json_file = "data/jyook_cc1.json"
+
+with open(input_json_file, "r") as reader:
     cc_data_json = json.load(reader)
 
-cc_data = cc_dat_utils.write_cc_data_to_dat("data/cc_data.json")
 

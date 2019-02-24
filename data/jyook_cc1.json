@@ -73,6 +73,7 @@
         {"title": "Puzzle 1"},
         {"password": [212, 220, 220, 201]},
         {"hint": "just do it"},
+        {"monsters": [1]}
       ]
     },
 
@@ -146,9 +147,10 @@
                       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                       0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
       "optional_fields": [
-        {"title": "Puzzle 2"},
-        {"password": [218, 209, 208, 201]},
-        {"hint": "just do it"}
+        {"type": "title","title_txt": "Puzzle 2"},
+        {"type": "password", "password_txt": [218, 209, 208, 201]},
+        {"type": "hint", "hint_txt": "just do it"},
+        {"type": "monsters", [1]}
       ]
     }
   ]
