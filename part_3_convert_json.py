@@ -22,10 +22,10 @@ def make_level_library_from_json(json_data):
                 new_field = cc_data.CCMapHintField(field_json["hint_txt"])
             if field_json["type"] == "password":
                 new_field = cc_data.CCEncodedPasswordField(field_json["password_txt"])
-            if field_json["type"] == "monster":
+            if field_json["type"] == "monsters":
                 location = []
-                for c in field_json["monsters"]:
-                    new_location = cc_data.CCCoordinate(c[0], c[1])
+                for monster_json in field_json["monster_loc"]:
+                    new_location = cc_data.CCCoordinate(monster_json[0], monster_json[1])
                     location.append(new_location)
                 new_field = cc_data.CCMonsterMovementField(location)
             level.add_field(new_field)
@@ -40,6 +40,10 @@ def make_level_library_from_json(json_data):
 input_json_file = "data/jyook_cc1.json"
 
 with open(input_json_file, "r") as reader:
-    cc_data_json = json.load(reader)
+    level_library_json = json.load(reader)
+
+cc_level_data = make_level_library_from_json(level_library_json)
 
 
+print(cc_level_data)
+cc_dat_utils.write_cc_data_to_dat(cc_level_data, "data/jyook_cc1.dat")
